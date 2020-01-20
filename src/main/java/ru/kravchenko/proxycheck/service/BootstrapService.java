@@ -3,6 +3,7 @@ package ru.kravchenko.proxycheck.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.kravchenko.proxycheck.api.IBootstrapService;
+import ru.kravchenko.proxycheck.api.IProxyService;
 
 /**
  * @author Roman Kravchenko
@@ -12,12 +13,13 @@ import ru.kravchenko.proxycheck.api.IBootstrapService;
 public class BootstrapService implements IBootstrapService {
 
     @Autowired
-    ProxyService proxyService;
+    IProxyService proxyService;
 
     @Override
     public void init() {
         System.out.println("init method start");
-        proxyService.startGetWorkProxy();
+        System.out.println("Thread.currentThread().getId() " + Thread.currentThread().getId());
+        proxyService.asyncMethod();
         System.out.println("init method end");
     }
 

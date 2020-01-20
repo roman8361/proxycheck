@@ -7,12 +7,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 import ru.kravchenko.proxycheck.api.IProxyService;
 import ru.kravchenko.proxycheck.entity.ProxyEntity;
 import ru.kravchenko.proxycheck.repository.ProxyRepository;
-
 
 import javax.net.ssl.SSLHandshakeException;
 import java.net.HttpURLConnection;
@@ -36,7 +34,6 @@ public class ProxyService implements IProxyService {
 
     List<ProxyEntity> cleanProxyList;
 
-    @Override
     @SneakyThrows
     public List<ProxyEntity> getRawProxyList() {
         List<ProxyEntity> result = new ArrayList<>();
@@ -60,7 +57,7 @@ public class ProxyService implements IProxyService {
         return result;
     }
 
-    @Async
+    @Async("threadPoolTaskExecutor")
     public void asyncMethod() {
         System.out.println("AsyncComponent");
         System.out.println("Thread.currentThread().getId() " + Thread.currentThread().getId());
@@ -68,7 +65,6 @@ public class ProxyService implements IProxyService {
     }
 
     @Async
-    @Override
     @SneakyThrows
     public void checkProxyAsync(ProxyEntity proxyEntity) {
         try {
@@ -83,6 +79,7 @@ public class ProxyService implements IProxyService {
                 System.out.println("ProxyEntity id: " + proxyEntity.getId());
                 System.out.println("ResponseCode: " + conn.getResponseCode());
                 System.out.println("Rejoice brothers and sisters!!!!");
+                System.out.println("proxyRepository.findAll().size(): " + proxyRepository.findAll().size());
                 proxyRepository.save(proxyEntity);
             }
             conn.disconnect();
@@ -91,7 +88,6 @@ public class ProxyService implements IProxyService {
         }
     }
 
-    @Override
     @SneakyThrows
     public void startGetWorkProxy() {
         List<ProxyEntity> rawListProxy = getRawProxyList();

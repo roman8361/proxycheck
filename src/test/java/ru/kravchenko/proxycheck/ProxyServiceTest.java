@@ -1,7 +1,6 @@
 package ru.kravchenko.proxycheck;
 
 import lombok.SneakyThrows;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +30,14 @@ public class ProxyServiceTest {
     public void startGetWorkProxyTest() {
         proxyService.startGetWorkProxy();
     }
-
-    @Test
-    public void getRawListProxyTest() {
-        List<ProxyEntity> rawProxyList = proxyService.getRawProxyList();
-        //     rawProxyList.forEach(System.out::println);
-        Assert.assertNotNull(rawProxyList);
-    }
-
+//
+//    @Test
+//    public void getRawListProxyTest() {
+//        List<ProxyEntity> rawProxyList = proxyService.getRawProxyList();
+//        //     rawProxyList.forEach(System.out::println);
+//        Assert.assertNotNull(rawProxyList);
+//    }
+//
     @Test
     @SneakyThrows
     public void testAsyncMethodGetProxy() {
@@ -55,7 +54,9 @@ public class ProxyServiceTest {
 
     @Test
     public void testAsyncMethod() {
-        proxyService.asyncMethod();
+        for (int i = 0; i < 10; i++) {
+            proxyService.asyncMethod();
+        }
     }
 
 }
