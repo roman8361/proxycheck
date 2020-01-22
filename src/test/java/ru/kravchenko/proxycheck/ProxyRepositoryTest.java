@@ -1,8 +1,8 @@
 package ru.kravchenko.proxycheck;
 
 import org.junit.Assert;
-import org.junit.runner.RunWith;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -11,18 +11,17 @@ import ru.kravchenko.proxycheck.repository.ProxyRepository;
 
 import java.util.List;
 
-import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = App.class)
-class ProxyRepositoryTest {
+public class ProxyRepositoryTest {
 
 	@Autowired
 	ProxyRepository proxyRepository;
 
 	@Test
-	void saveAndGetProxyEntityTest() {
+	public void saveAndGetProxyEntityTest() {
 		ProxyEntity proxyEntity = new ProxyEntity();
 		proxyRepository.save(proxyEntity);
 		ProxyEntity proxyEntity1 = proxyRepository.getOne(proxyEntity.getId());
@@ -30,15 +29,15 @@ class ProxyRepositoryTest {
 	}
 
 	@Test
-	void findALL() {
+	public void findALL() {
 		List<ProxyEntity> list = proxyRepository.findAll();
 		for (ProxyEntity p: list) {
-			out.println(p.getId());
+			System.out.println(p.getId());
 		}
 	}
 
 	@Test
-	void dellAll() {
+	public void dellAll() {
 		proxyRepository.deleteAll();
 		Assert.assertTrue(proxyRepository.findAll().isEmpty());
 	}

@@ -1,6 +1,7 @@
 package ru.kravchenko.proxycheck;
 
 import lombok.SneakyThrows;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +31,13 @@ public class ProxyServiceTest {
     public void startGetWorkProxyTest() {
         proxyService.startGetWorkProxy();
     }
-//
-//    @Test
-//    public void getRawListProxyTest() {
-//        List<ProxyEntity> rawProxyList = proxyService.getRawProxyList();
-//        //     rawProxyList.forEach(System.out::println);
-//        Assert.assertNotNull(rawProxyList);
-//    }
-//
+
+    @Test
+    public void getRawListProxyTest() {
+        List<ProxyEntity> rawProxyList = proxyService.getRawProxyList();
+        Assert.assertNotNull(rawProxyList);
+    }
+
     @Test
     @SneakyThrows
     public void testAsyncMethodGetProxy() {
@@ -56,6 +56,28 @@ public class ProxyServiceTest {
     public void testAsyncMethod() {
         for (int i = 0; i < 10; i++) {
             proxyService.asyncMethod();
+        }
+    }
+
+    @Test
+    @SneakyThrows
+    public void testStartGetWorkProxy() {
+        List<ProxyEntity> rawProxyList = proxyService.getRawProxyList();
+        for (ProxyEntity proxyEntity : rawProxyList ) {
+            proxyService.checkProxyAsync(proxyEntity);
+        }
+
+        List<ProxyEntity> cleanProxy = proxyRepository.findAll(); // TODO остановка не работае
+        while (cleanProxy.size() < 5) {
+            Thread.sleep(500);
+        }
+    }
+
+    @Test
+    public void testShowCleanProxy() {
+        List<ProxyEntity> cleanProxy = proxyRepository.findAll();
+        for (ProxyEntity p: cleanProxy) {
+            System.out.println(p);
         }
     }
 

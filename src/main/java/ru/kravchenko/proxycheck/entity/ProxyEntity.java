@@ -37,6 +37,7 @@ public class ProxyEntity extends AbstractEntity {
                 ", code='" + code + '\'' +
                 ", country='" + country + '\'' +
                 ", anonymity='" + anonymity + '\'' +
+                ", checkFlag=" + checkFlag +
                 '}';
     }
 

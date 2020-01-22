@@ -32,8 +32,6 @@ public class ProxyService implements IProxyService {
     @Autowired
     ProxyRepository proxyRepository;
 
-    List<ProxyEntity> cleanProxyList;
-
     @SneakyThrows
     public List<ProxyEntity> getRawProxyList() {
         List<ProxyEntity> result = new ArrayList<>();
@@ -64,8 +62,8 @@ public class ProxyService implements IProxyService {
         System.out.println("Thread.currentThread().getName() " + Thread.currentThread().getName());
     }
 
-    @Async
     @SneakyThrows
+    @Async("threadPoolTaskExecutor")
     public void checkProxyAsync(ProxyEntity proxyEntity) {
         try {
             System.getProperties().put("proxySet", "true");
@@ -94,7 +92,7 @@ public class ProxyService implements IProxyService {
         for (ProxyEntity p : rawListProxy) {
             checkProxyAsync(p);
         }
-        cleanProxyList = proxyRepository.findAll();
+        List<ProxyEntity> cleanProxyList = proxyRepository.findAll();
         while (cleanProxyList.size() < 10) {
             Thread.sleep(500);
         }
